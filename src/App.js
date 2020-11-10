@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react';
+import AppMenu from './AppMenu';
+import { HashRouter as Router } from 'react-router-dom';
+import { UserContext, OtherContext, ProvideAppContext } from './Contexts';
+
+function App (props) {
+	return (
+		<UserContext.Provider value={{ me: props.me }}>
+			<OtherContext.Provider>
+				<ProvideAppContext>
+					<Router>
+						<AppMenu me={props.me} />
+					</Router>
+				</ProvideAppContext >
+			</OtherContext.Provider >
+		</UserContext.Provider >
+	);
 }
 
-export default App;
+
+let hoc = WrappedComponent => {
+	return class EnhancedComponent extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				me: null
+			};
+		}
+
+		render () {
+
+			return <WrappedComponent
+        me={this.state.me}
+			/>
+		}
+	}
+}
+
+export default hoc(App);
