@@ -133,10 +133,10 @@ let hoc = WrappedComponent => {
     }
 
     delete = (id) => {
-      let { users, storeUsers } = this.state;
+      let { users } = this.state;
       users = _.filter(users, user => user.id !== id);
-      storeUsers = _.filter(storeUsers, user => user.id !== id);
-      this.setState({ users, storeUsers });
+      //storeUsers = _.filter(storeUsers, user => user.id !== id);
+      this.setState({ users, storeUsers: users });
     }
 
     showEditConfirm = (user) => {
