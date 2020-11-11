@@ -1,19 +1,23 @@
 import React from 'react';
 import _ from 'lodash';
 import { Table, Space, Modal, Form, Input, Button, Menu  } from 'antd';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 import data from '../mock/data';
+
 
 const { Column } = Table;
 const { Item } = Form;
 const { Search } = Input;
 
 function User(props) {
+  const { t, i18n } = useTranslation();
   return (
     <>
+      <Button type="primary" onClick={() => i18n.changeLanguage(i18n.language == 'en' ? 'zh': 'en')} style={{ margin: '6px 16px' }}>{t('transform')}</Button>
       <Menu style={{display:'flex', alignItems:'center'}}>
         <Menu.Item>
-          <Button onClick={props.showAddConfirm} type="primary">添加用户</Button>
+        <Button onClick={props.showAddConfirm} type="primary">{t('addUser')}</Button>
         </Menu.Item>
         <Menu.Item>
           <Search placeholder="请输入用户名/联系方式/邮箱"  enterButton onSearch={props.onSearch} style={{ width: 400 }}/>
@@ -21,40 +25,40 @@ function User(props) {
       </Menu>           
       <Table dataSource={props.users}>
         <Column
-          title='姓名'
+          title={t('name')}
           dataIndex={props.users.name}
           key={props.users.name}
           render={(text, record) => (
             <span>{record.name}</span>
           )} />
         <Column
-          title='手机号码'
+          title={t('mobile')}
           dataIndex={props.users.mobile}
           key={props.users.mobile}
           render={(text, record) => (
             <span>{record.mobile}</span>
           )} />
         <Column
-          title='邮箱'
+          title={t('email')}
           dataIndex={props.users.email}
           key={props.users.email}
           render={(text, record) => (
             <span>{record.email}</span>
           )} />
         <Column
-          title='操作'
+          title={t('action')}
           key='action'
           render={(text, record) => (
             <Space size="middle">
-              <a onClick={() => { props.showEditConfirm(record) }}>编辑</a>
-              <a onClick={() => { props.showDeleteConfirm(record.id) }}>删除</a>
+              <a onClick={() => { props.showEditConfirm(record) }}>{t('edit')}</a>
+              <a onClick={() => { props.showDeleteConfirm(record.id) }}>{t('delete')}</a>
             </Space>
           )} />
 
       </Table>
       <Modal
         destroyOnClose
-        title={props.isEdit ? '编辑用户' : '添加用户'}
+        title={props.isEdit ? `${t('editUser')}` : `${t('addUser')}`}
         visible={props.isShowModal}
         footer={false}
         onCancel={props.handleModalCancel}
@@ -103,7 +107,7 @@ function User(props) {
             <Input placeholder='请输入邮箱' />
           </Item>
           <Button type="primary" htmlType="submit" size={'middle'}>
-            提交
+            {t('submit')}
           </Button>
         </Form>
       </Modal>
@@ -112,7 +116,8 @@ function User(props) {
 }
 
 let hoc = WrappedComponent => {
-  return class EnhancedComponent extends React.Component {
+  return withTranslation()(class EnhancedComponent extends React.Component {
+    get t() { return this.props.t; }
     constructor(props) {
       super(props)
       this.state = {
@@ -129,9 +134,9 @@ let hoc = WrappedComponent => {
 
     showDeleteConfirm = (id) => {
       Modal.confirm({
-        title: '确认删除用户吗',
-        okText: '确认',
-        cancelText: '取消',
+        title: this.t('shouldDeleteUser'),
+        okText: this.t('confirm'),
+        cancelText: this.t('cancel'),
         onOk: () => {
           this.delete(id)
         }
@@ -197,7 +202,7 @@ let hoc = WrappedComponent => {
       />
     }
 
-  }
+  })
 }
 
 export default hoc(User);

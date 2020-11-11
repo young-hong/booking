@@ -1,6 +1,7 @@
 {
   "name": "antd-test",
   "version": "0.1.0",
+  "homepage": "https://young-hong.github.io",
   "private": true,
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",

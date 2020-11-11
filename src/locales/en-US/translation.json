@@ -1,0 +1,15 @@
+{ 
+  "addUser": "Add User",
+  "action": "Action",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "email": "Email",
+  "edit": "Edit",
+  "editUser": "Edit User",
+  "mobile": "Mobile",
+  "name": "Name",  
+  "submit": "Submit",
+  "shouldDeleteUser": "Are you sure to delete the user",
+  "transform":"中文"
+}
