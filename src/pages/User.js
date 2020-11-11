@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Table, Space, Modal, Form, Input, Button } from 'antd';
+import { Table, Space, Modal, Form, Input, Button, Menu  } from 'antd';
 
 import data from '../mock/data';
 
@@ -11,8 +11,14 @@ const { Search } = Input;
 function User(props) {
   return (
     <>
-      <Button onClick={props.showAddConfirm}>添加用户</Button>
-      <Search placeholder="请输入用户名/联系方式/邮箱"  enterButton onSearch={props.onSearch}/>
+      <Menu style={{display:'flex', alignItems:'center'}}>
+        <Menu.Item>
+          <Button onClick={props.showAddConfirm} type="primary">添加用户</Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Search placeholder="请输入用户名/联系方式/邮箱"  enterButton onSearch={props.onSearch} style={{ width: 400 }}/>
+        </Menu.Item>
+      </Menu>           
       <Table dataSource={props.users}>
         <Column
           title='姓名'
@@ -135,7 +141,6 @@ let hoc = WrappedComponent => {
     delete = (id) => {
       let { users } = this.state;
       users = _.filter(users, user => user.id !== id);
-      //storeUsers = _.filter(storeUsers, user => user.id !== id);
       this.setState({ users, storeUsers: users });
     }
 
@@ -169,7 +174,6 @@ let hoc = WrappedComponent => {
 
     onSearch = (values) => {
       let { users, storeUsers } = this.state;
-      storeUsers = _.unionBy(storeUsers, 'id');
       if( values ) {
         users = _.filter(storeUsers, item => _.includes(item.name, values) || _.includes(item.email, values) || _.includes(item.mobile, values));
         this.setState({ users });
